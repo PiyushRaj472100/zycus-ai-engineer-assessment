@@ -105,3 +105,48 @@ class TriageResponse(BaseModel):
             self.knowledge_base_document = None
             self.knowledge_base_reference = None
         return self
+
+
+# ---------------------------------------------------------------------------
+# Task 2: Account Health Summariser Schemas
+# ---------------------------------------------------------------------------
+
+class SeverityTier(str, Enum):
+    HIGH = "High"
+    MEDIUM = "Medium"
+    LOW = "Low"
+
+
+class EvidenceItem(BaseModel):
+    """Evidence supporting an identified risk."""
+    ticket_id: Optional[str] = None
+    quote: Optional[str] = None
+
+
+class RiskItem(BaseModel):
+    """An identified risk or escalation flag for the account."""
+    risk: str
+    severity: SeverityTier
+    reason: str
+    evidence: Optional[EvidenceItem] = None
+
+
+class AccountHealthRequest(BaseModel):
+    """Incoming request to summarize account health for TAM QBR prep."""
+    account_id: str
+
+    @model_validator(mode="after")
+    def validate_account_id(self) -> "AccountHealthRequest":
+        self.account_id = self.account_id.strip()
+        if not self.account_id:
+            raise ValueError("account_id must not be empty")
+        return self
+
+
+class AccountHealthResponse(BaseModel):
+    """Structured TAM brief returned to the caller."""
+    account_id: str
+    company: str
+    executive_summary: str
+    open_risks: list[RiskItem]
+    talking_points: list[str]

@@ -11,8 +11,14 @@ from pydantic import ValidationError
 
 from .config import settings
 from .retrieval import KnowledgeBase, load_kb
-from .schemas import TicketRequest, TriageResponse
+from .schemas import (
+    AccountHealthRequest,
+    AccountHealthResponse,
+    TicketRequest,
+    TriageResponse,
+)
 from .triage import triage_ticket
+from .account_health import summarize_account_health
 
 logger = logging.getLogger(__name__)
 
@@ -111,3 +117,25 @@ def triage(ticket: TicketRequest) -> TriageResponse:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 
     return result
+
+
+@app.post(
+    "/account-health",
+    response_model=AccountHealthResponse,
+    tags=["Account Health"],
+    summary="TAM Account Health Summariser",
+)
+def account_health(request: AccountHealthRequest) -> AccountHealthResponse:
+    """
+    Generate a TAM account-health brief for QBR preparation.
+
+    Accepts an `account_id`, retrieves the account profile and 90-day ticket history,
+    detects churn and escalation signals, and returns a concise structured brief
+    containing executive summary, open risks with verified evidence, and recommended talking points.
+    """
+    try:
+        return summarize_account_health(request.account_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc

@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     google_api_key: Optional[str] = None
     gemini_model: str = "gemini-3.5-flash-lite"
     kb_path: Path = Path("knowledge-base")
+    accounts_path: Path = Path("data/accounts.json")
+    tickets_path: Path = Path("data/tickets.json")
 
     def require_api_key(self) -> str:
         """Return the API key or raise a clear error if it is missing."""
