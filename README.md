@@ -230,11 +230,36 @@ zycus-ai-engineer-assessment/
 ├── tests/
 │   ├── test_account_health.py # Pytest test suite for Task 2 pipeline
 │   └── test_triage.py         # Pytest test suite for Task 1 triage & retrieval
+├── streamlit_app.py           # Streamlit demo UI (Ticket Triage + Account Health)
 ├── .env.example               # Template for required environment variables
 ├── DATA_SCHEMA.md             # Field-level schema reference for data files
 ├── requirements.txt           # Python package dependencies
 └── README.md                  # Comprehensive system documentation
 ```
+
+---
+
+## Streamlit Demo
+
+A lightweight Streamlit interface is included to make the backend features accessible without any API or JSON knowledge.
+
+**Step 1 — Start the backend API**
+```bash
+uvicorn src.main:app --reload
+```
+
+**Step 2 — Open a new terminal and launch the Streamlit UI**
+```bash
+streamlit run streamlit_app.py
+```
+
+**Step 3 — Open the browser URL shown (typically [http://localhost:8501](http://localhost:8501))**
+
+The UI provides two tabs:
+- **Ticket Triage**: Paste a customer message, click *Analyze Ticket*, and receive a structured triage result (issue type, urgency, KB reference, recommended team, and a draft response).
+- **Account Health**: Enter a customer account ID, click *Generate Account Brief*, and receive an executive summary, flagged risks with ticket evidence, and QBR talking points.
+
+Sample tickets and account IDs are pre-loaded for quick demonstration.
 
 ---
 
