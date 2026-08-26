@@ -9,7 +9,6 @@ Run with:
     python -m streamlit run streamlit_app.py
 """
 import os
-import time
 import requests
 import streamlit as st
 from dotenv import load_dotenv
@@ -45,10 +44,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ---------------------------------------------------------------------------
-# Session State Initialization & Callbacks
-# ---------------------------------------------------------------------------
-
+# Initialize Session State for results persistence
 if "txt_subject" not in st.session_state:
     st.session_state["txt_subject"] = ""
 if "txt_body" not in st.session_state:
@@ -62,13 +58,13 @@ if "health_result" not in st.session_state:
 
 
 def _load_example_ticket():
-    """Callback to instantly populate the ticket subject and body."""
+    """Callback to populate the ticket subject and body."""
     st.session_state["txt_subject"] = _EXAMPLE_TICKET["subject"]
     st.session_state["txt_body"] = _EXAMPLE_TICKET["body"]
 
 
 def _set_example_account(acc_id: str):
-    """Callback to instantly populate the account ID input."""
+    """Callback to populate the account ID input."""
     st.session_state["txt_account_id"] = acc_id
 
 
@@ -130,7 +126,6 @@ with tab_triage:
             st.warning("Please provide both a subject and ticket description.")
         else:
             with st.spinner("Analyzing ticket with AI assistant..."):
-                t0 = time.time()
                 try:
                     resp = requests.post(
                         f"{BACKEND_URL}/triage",
@@ -139,9 +134,7 @@ with tab_triage:
                     )
 
                     if resp.status_code == 200:
-                        triage_data = resp.json()
-                        st.session_state["triage_result"] = triage_data
-                        st.session_state["display_first_response"] = triage_data.get("first_response", "")
+                        st.session_state["triage_result"] = resp.json()
                     elif resp.status_code == 422:
                         st.error("Invalid ticket format. Please check the subject and body.")
                     elif resp.status_code == 502:
@@ -337,10 +330,3 @@ with tab_health:
         else:
             st.info("No talking points were generated for this account.")
 
-
-# ---------------------------------------------------------------------------
-# Footer
-# ---------------------------------------------------------------------------
-
-st.markdown("---")
-st.caption("Zycus AI Engineer Assessment · Customer Support & Account Health Assistant")

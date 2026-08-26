@@ -250,7 +250,7 @@ uvicorn src.main:app --reload
 
 **Step 2 — Open a new terminal and launch the Streamlit UI**
 ```bash
-streamlit run streamlit_app.py
+python -m streamlit run streamlit_app.py
 ```
 
 **Step 3 — Open the browser URL shown (typically [http://localhost:8501](http://localhost:8501))**
