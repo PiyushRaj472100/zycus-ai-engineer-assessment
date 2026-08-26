@@ -1,0 +1,218 @@
+[
+  {
+    "id": "T2-01",
+    "name": "Healthy Account — Clean Profile (Endframe Analytics)",
+    "description": "ACC-5108 Endframe Analytics: Healthy status, no escalation notes, no recent tickets, no NPS score. Expects a valid brief with no High/Medium risks and at least 2 talking points.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-5108"
+    },
+    "checks": [
+      {
+        "name": "http_200",
+        "type": "http_status",
+        "expected": 200
+      },
+      {
+        "name": "company_name_correct",
+        "type": "field_equals",
+        "field": "company",
+        "expected": "Endframe Analytics"
+      },
+      {
+        "name": "executive_summary_substantive",
+        "type": "field_min_length",
+        "field": "executive_summary",
+        "expected": 80
+      },
+      {
+        "name": "no_high_or_medium_risks_for_healthy_account",
+        "type": "max_risk_severity",
+        "expected": "Low"
+      },
+      {
+        "name": "talking_points_present",
+        "type": "talking_points_min",
+        "expected": 2
+      }
+    ],
+    "pass_threshold": 0.8
+  },
+  {
+    "id": "T2-02",
+    "name": "Churning Account — Multiple Escalations (Pinnacle Systems)",
+    "description": "ACC-2944 Pinnacle Systems: Churning status with 3 serious escalation notes (champion left, negative sentiment, vendor evaluation). Expects at least one open risk to be identified.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-2944"
+    },
+    "checks": [
+      {
+        "name": "http_200",
+        "type": "http_status",
+        "expected": 200
+      },
+      {
+        "name": "company_name_correct",
+        "type": "field_equals",
+        "field": "company",
+        "expected": "Pinnacle Systems"
+      },
+      {
+        "name": "executive_summary_substantive",
+        "type": "field_min_length",
+        "field": "executive_summary",
+        "expected": 80
+      },
+      {
+        "name": "churning_account_has_open_risks",
+        "type": "list_not_empty",
+        "field": "open_risks"
+      },
+      {
+        "name": "talking_points_present",
+        "type": "talking_points_min",
+        "expected": 2
+      }
+    ],
+    "pass_threshold": 0.8
+  },
+  {
+    "id": "T2-03",
+    "name": "New Account — High NPS Positive Profile (Solaris Data)",
+    "description": "ACC-7893 Solaris Data: New account with NPS=10, no escalations, and no recent tickets. Expects a valid brief with no High risks and at least 2 talking points.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-7893"
+    },
+    "checks": [
+      {
+        "name": "http_200",
+        "type": "http_status",
+        "expected": 200
+      },
+      {
+        "name": "company_name_correct",
+        "type": "field_equals",
+        "field": "company",
+        "expected": "Solaris Data"
+      },
+      {
+        "name": "executive_summary_substantive",
+        "type": "field_min_length",
+        "field": "executive_summary",
+        "expected": 80
+      },
+      {
+        "name": "no_high_risks_for_positive_new_account",
+        "type": "max_risk_severity",
+        "expected": "Medium"
+      },
+      {
+        "name": "talking_points_present",
+        "type": "talking_points_min",
+        "expected": 2
+      }
+    ],
+    "pass_threshold": 0.8
+  },
+  {
+    "id": "T2-04",
+    "name": "Healthy Account — Low NPS + Inactive Usage (Initech)",
+    "description": "ACC-4654 Initech: Healthy status but NPS=3 and Inactive usage trend with no escalation notes. Per calibration rules, account-level signals on a Healthy account must not exceed Low severity. Expects max Low risk severity.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-4654"
+    },
+    "checks": [
+      {
+        "name": "http_200",
+        "type": "http_status",
+        "expected": 200
+      },
+      {
+        "name": "company_name_correct",
+        "type": "field_equals",
+        "field": "company",
+        "expected": "Initech"
+      },
+      {
+        "name": "executive_summary_substantive",
+        "type": "field_min_length",
+        "field": "executive_summary",
+        "expected": 80
+      },
+      {
+        "name": "low_nps_healthy_account_not_high_severity",
+        "type": "max_risk_severity",
+        "expected": "Low"
+      },
+      {
+        "name": "talking_points_present",
+        "type": "talking_points_min",
+        "expected": 2
+      }
+    ],
+    "pass_threshold": 0.8
+  },
+  {
+    "id": "T2-05",
+    "name": "Adversarial — Past Renewal Date Must Not Be Inflated (Polaris Group)",
+    "description": "ACC-3033 Polaris Group: Healthy account whose renewal_date (2026-06-30) has already passed as of the execution date. Adversarial test: the model must NOT call this 'upcoming', must NOT classify the lapsed renewal as Medium/High risk without additional supporting evidence, and should suggest the TAM confirm the current agreement status.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-3033"
+    },
+    "checks": [
+      {
+        "name": "http_200",
+        "type": "http_status",
+        "expected": 200
+      },
+      {
+        "name": "company_name_correct",
+        "type": "field_equals",
+        "field": "company",
+        "expected": "Polaris Group"
+      },
+      {
+        "name": "past_renewal_not_high_or_medium_risk",
+        "type": "max_risk_severity",
+        "expected": "Low"
+      },
+      {
+        "name": "renewal_not_described_as_upcoming",
+        "type": "full_text_not_contains",
+        "expected": "upcoming renewal"
+      },
+      {
+        "name": "renewal_not_described_as_future",
+        "type": "full_text_not_contains",
+        "expected": "future renewal"
+      },
+      {
+        "name": "talking_points_present",
+        "type": "talking_points_min",
+        "expected": 1
+      }
+    ],
+    "pass_threshold": 0.7
+  },
+  {
+    "id": "T2-06",
+    "name": "Adversarial — Non-Existent Account Returns 404",
+    "description": "Requesting health summary for an account ID that does not exist in accounts.json. Expects a 404 Not Found response with graceful error handling.",
+    "endpoint": "/account-health",
+    "request": {
+      "account_id": "ACC-NONEXISTENT-99999"
+    },
+    "checks": [
+      {
+        "name": "http_404_for_unknown_account",
+        "type": "http_status",
+        "expected": 404
+      }
+    ],
+    "pass_threshold": 1.0
+  }
+]
