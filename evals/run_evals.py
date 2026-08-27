@@ -1,26 +1,4 @@
-"""
-Task 3: Evaluation Harness -- entry point.
 
-Usage
------
-# Run against the embedded FastAPI app (default, no server needed):
-    python -m evals.run_evals
-
-# Run against a live server:
-    python -m evals.run_evals --base-url http://localhost:8000
-
-# Save JSON report to a custom path:
-    python -m evals.run_evals --output evals/my_report.json
-
-# Run only Task 1 or Task 2 cases:
-    python -m evals.run_evals --task t1
-    python -m evals.run_evals --task t2
-
-Exit codes
-----------
-0  All cases passed (score >= threshold).
-1  One or more cases failed.
-"""
 from __future__ import annotations
 
 import argparse
@@ -32,42 +10,36 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Reconfigure stdout to UTF-8 so emoji / special chars render on all platforms.
+
 try:
     sys.stdout = io.TextIOWrapper(
         sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True
     )
 except AttributeError:
-    pass  # already reconfigured or not a buffered stream
+    pass  
 
-# ---------------------------------------------------------------------------
+
 # Paths
-# ---------------------------------------------------------------------------
+
 
 _HERE = Path(__file__).parent
 _CASES_DIR = _HERE / "cases"
 _DEFAULT_REPORT_PATH = _HERE / "report.json"
 
-# ---------------------------------------------------------------------------
+
 # Imports from this package
-# ---------------------------------------------------------------------------
+
 
 from evals.scorer import run_check, score_case, CheckResult  # noqa: E402
 
 
-# ---------------------------------------------------------------------------
+
 # HTTP client abstraction
-# ---------------------------------------------------------------------------
+
 
 
 def _make_client(base_url: Optional[str]):
-    """
-    Return an HTTP client.
-
-    If *base_url* is given we use ``httpx`` against a live server.
-    Otherwise we use FastAPI's ``TestClient`` (which runs the ASGI app
-    in-process and properly triggers the lifespan / KB load).
-    """
+   
     if base_url:
         try:
             import httpx
@@ -95,9 +67,9 @@ def _make_client(base_url: Optional[str]):
         return TestClient(app, raise_server_exceptions=False)
 
 
-# ---------------------------------------------------------------------------
+
 # Case runner
-# ---------------------------------------------------------------------------
+
 
 
 def run_case(client: Any, case: Dict[str, Any]) -> Dict[str, Any]:
@@ -152,9 +124,9 @@ def run_case(client: Any, case: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-# ---------------------------------------------------------------------------
+
 # Report formatting
-# ---------------------------------------------------------------------------
+
 
 _PASS_ICON = "[PASS]"
 _FAIL_ICON = "[FAIL]"
@@ -270,9 +242,9 @@ def save_json_report(results: List[Dict[str, Any]], output_path: Path) -> None:
     print(f"  [eval] JSON report saved → {output_path}")
 
 
-# ---------------------------------------------------------------------------
+
 # Main
-# ---------------------------------------------------------------------------
+
 
 
 def load_cases(path: Path) -> List[Dict[str, Any]]:

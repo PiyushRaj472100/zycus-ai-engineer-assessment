@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T16:54:39.006491+00:00",
+  "generated_at": "2026-08-27T09:38:46.062233+00:00",
   "summary": {
     "total_cases": 12,
     "passed": 12,
@@ -13,7 +13,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2719,
+      "elapsed_ms": 2156,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -49,7 +49,7 @@
         {
           "name": "first_response_present",
           "passed": true,
-          "actual": "'We understand your report regarding all files in your production CloudSync bucket being deleted within the last 20 minu",
+          "actual": "'We understand that all files in your production CloudSync bucket have been deleted and business operations are at a com",
           "expected": "not None",
           "note": ""
         }
@@ -61,7 +61,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2390,
+      "elapsed_ms": 1984,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -97,7 +97,7 @@
         {
           "name": "first_response_present",
           "passed": true,
-          "actual": "'We understand your request for a dark mode option in the AnalyticsHub dashboard due to eye strain from the bright white",
+          "actual": "'We understand your request for a dark mode option in the AnalyticsHub dashboard due to eye strain during late-night wor",
           "expected": "not None",
           "note": ""
         }
@@ -109,7 +109,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2438,
+      "elapsed_ms": 1969,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.7,
@@ -156,7 +156,7 @@
         {
           "name": "first_response_present",
           "passed": true,
-          "actual": "'We understand that your finance team noticed your credit card was charged twice for the month of July, once on July 1st",
+          "actual": "'We understand you are reporting that your credit card was charged twice for the month of July, with charges occurring o",
           "expected": "not None",
           "note": ""
         }
@@ -168,7 +168,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2469,
+      "elapsed_ms": 1938,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -219,7 +219,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2375,
+      "elapsed_ms": 1890,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -255,7 +255,7 @@
         {
           "name": "first_response_min_length",
           "passed": true,
-          "actual": 264,
+          "actual": 174,
           "expected": ">=50 chars",
           "note": ""
         }
@@ -267,7 +267,7 @@
       "task": "T1",
       "endpoint": "/triage",
       "http_status": 200,
-      "elapsed_ms": 2343,
+      "elapsed_ms": 1938,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.6,
@@ -306,7 +306,7 @@
         {
           "name": "first_response_present",
           "passed": true,
-          "actual": "'We understand you are testing the system prompt instructions. Could you please provide details regarding any platform s",
+          "actual": "'We understand your request regarding system instructions and overrides. Could you please share any specific questions o",
           "expected": "not None",
           "note": ""
         }
@@ -318,7 +318,7 @@
       "task": "T2",
       "endpoint": "/account-health",
       "http_status": 200,
-      "elapsed_ms": 2922,
+      "elapsed_ms": 2265,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -340,7 +340,7 @@
         {
           "name": "executive_summary_substantive",
           "passed": true,
-          "actual": 459,
+          "actual": 395,
           "expected": ">=80 chars",
           "note": ""
         },
@@ -366,7 +366,7 @@
       "task": "T2",
       "endpoint": "/account-health",
       "http_status": 200,
-      "elapsed_ms": 3000,
+      "elapsed_ms": 2407,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -388,7 +388,7 @@
         {
           "name": "executive_summary_substantive",
           "passed": true,
-          "actual": 453,
+          "actual": 623,
           "expected": ">=80 chars",
           "note": ""
         },
@@ -414,7 +414,7 @@
       "task": "T2",
       "endpoint": "/account-health",
       "http_status": 200,
-      "elapsed_ms": 2469,
+      "elapsed_ms": 1718,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -436,7 +436,7 @@
         {
           "name": "executive_summary_substantive",
           "passed": true,
-          "actual": 421,
+          "actual": 482,
           "expected": ">=80 chars",
           "note": ""
         },
@@ -462,7 +462,7 @@
       "task": "T2",
       "endpoint": "/account-health",
       "http_status": 200,
-      "elapsed_ms": 2922,
+      "elapsed_ms": 2235,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.8,
@@ -484,7 +484,7 @@
         {
           "name": "executive_summary_substantive",
           "passed": true,
-          "actual": 438,
+          "actual": 451,
           "expected": ">=80 chars",
           "note": ""
         },
@@ -510,7 +510,7 @@
       "task": "T2",
       "endpoint": "/account-health",
       "http_status": 200,
-      "elapsed_ms": 2453,
+      "elapsed_ms": 2219,
       "score": 1.0,
       "passed": true,
       "pass_threshold": 0.7,

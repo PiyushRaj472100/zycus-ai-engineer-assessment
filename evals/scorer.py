@@ -1,10 +1,4 @@
-"""
-Evaluation harness scorer — rule-based checks and quality scoring.
 
-Each check accepts the HTTP response (status + JSON body) and returns a
-``CheckResult`` with pass/fail status, the actual value observed, and what
-was expected.  Scores are computed as ``passed / total`` in [0, 1].
-"""
 from __future__ import annotations
 
 import json
@@ -12,16 +6,16 @@ from dataclasses import dataclass, asdict
 from typing import Any, Dict, List, Optional
 
 
-# ---------------------------------------------------------------------------
+
 # Severity ordering (for max_risk_severity checks)
-# ---------------------------------------------------------------------------
+
 
 _SEVERITY_ORDER: Dict[str, int] = {"Low": 0, "Medium": 1, "High": 2}
 
 
-# ---------------------------------------------------------------------------
+
 # CheckResult dataclass
-# ---------------------------------------------------------------------------
+
 
 
 @dataclass
@@ -44,9 +38,9 @@ class CheckResult:
         }
 
 
-# ---------------------------------------------------------------------------
+
 # Core check dispatcher
-# ---------------------------------------------------------------------------
+
 
 
 def run_check(
@@ -223,9 +217,9 @@ def run_check(
     )
 
 
-# ---------------------------------------------------------------------------
+
 # Scoring
-# ---------------------------------------------------------------------------
+
 
 
 def score_case(results: List[CheckResult]) -> float:

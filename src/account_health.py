@@ -1,9 +1,4 @@
-"""Task 2: TAM Account Health Summariser.
 
-Loads account and ticket history, detects account-health and churn signals,
-and uses Gemini to synthesize a concise, actionable Technical Account Manager (TAM)
-brief for QBR preparation with verified verbatim ticket evidence.
-"""
 from __future__ import annotations
 
 import json
@@ -26,16 +21,16 @@ from .schemas import (
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+
 # Data Loading & Caching
-# ---------------------------------------------------------------------------
+
 
 _ACCOUNTS_CACHE: Optional[Tuple[float, Dict[str, Dict[str, Any]]]] = None
 _TICKETS_CACHE: Optional[Tuple[float, List[Dict[str, Any]]]] = None
 
 
 def load_accounts(accounts_path: Optional[Path] = None) -> Dict[str, Dict[str, Any]]:
-    """Load accounts.json into an account_id -> account_dict map."""
+  
     global _ACCOUNTS_CACHE
     path = accounts_path or settings.accounts_path
     mtime = path.stat().st_mtime if path.exists() else 0.0
@@ -56,7 +51,7 @@ def load_accounts(accounts_path: Optional[Path] = None) -> Dict[str, Dict[str, A
 
 
 def load_tickets(tickets_path: Optional[Path] = None) -> List[Dict[str, Any]]:
-    """Load tickets.json."""
+   
     global _TICKETS_CACHE
     path = tickets_path or settings.tickets_path
     mtime = path.stat().st_mtime if path.exists() else 0.0
@@ -79,13 +74,13 @@ def get_account(
     account_id: str,
     accounts_path: Optional[Path] = None,
 ) -> Optional[Dict[str, Any]]:
-    """Look up an account by its ID."""
+   
     accounts = load_accounts(accounts_path)
     return accounts.get(account_id)
 
 
 def _parse_iso_datetime(dt_str: str) -> Optional[datetime]:
-    """Parse ISO datetime string into a timezone-aware UTC datetime."""
+
     try:
         clean_str = dt_str.replace("Z", "+00:00")
         dt = datetime.fromisoformat(clean_str)
@@ -97,7 +92,7 @@ def _parse_iso_datetime(dt_str: str) -> Optional[datetime]:
 
 
 def get_dataset_max_ticket_date(tickets: List[Dict[str, Any]]) -> datetime:
-    """Find the latest created_at timestamp in the tickets dataset."""
+
     max_dt = datetime.min.replace(tzinfo=timezone.utc)
     for t in tickets:
         created_at_str = t.get("created_at")
@@ -116,11 +111,7 @@ def get_account_tickets(
     days: int = 90,
     reference_date: Optional[datetime] = None,
 ) -> List[Dict[str, Any]]:
-    """
-    Retrieve and filter tickets for an account within the last 90 days.
-
-    Sorts tickets deterministically by created_at descending and ticket_id ascending.
-    """
+   
     all_tickets = load_tickets(tickets_path)
 
     # Determine reference date for the 90-day window
@@ -154,9 +145,9 @@ def get_account_tickets(
     return account_tickets
 
 
-# ---------------------------------------------------------------------------
+
 # Account Signals Detection
-# ---------------------------------------------------------------------------
+
 
 def detect_account_signals(
     account: Dict[str, Any],
@@ -227,9 +218,9 @@ def detect_account_signals(
     return signals
 
 
-# ---------------------------------------------------------------------------
+
 # LLM Prompt & Synthesis
-# ---------------------------------------------------------------------------
+
 
 _SYSTEM_PROMPT = """\
 You are an expert Technical Account Management (TAM) Director.
@@ -386,9 +377,9 @@ def _call_gemini_account_health(prompt: str) -> str:
     raise RuntimeError("Gemini API call failed: no models attempted or no response returned")
 
 
-# ---------------------------------------------------------------------------
+
 # Quote Validation & Sanitization
-# ---------------------------------------------------------------------------
+
 
 def _normalize_text(s: str) -> str:
     """Normalize whitespace for fuzzy matching verbatim quotes."""
@@ -489,9 +480,9 @@ def validate_and_sanitize_brief(
     )
 
 
-# ---------------------------------------------------------------------------
+
 # Public Entry Point
-# ---------------------------------------------------------------------------
+
 
 def summarize_account_health(
     account_id: str,

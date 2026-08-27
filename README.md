@@ -1,5 +1,13 @@
 # Zycus AI Engineer Assessment
 
+## Video Walkthrough
+
+[![Zycus AI Assessment Demo](https://cdn.loom.com/sessions/thumbnails/9a897833986d480bb72ecaa33dbe5d5d-with-play.gif)](https://www.loom.com/share/9a897833986d480bb72ecaa33dbe5d5d)
+
+🎥 **[Watch the Complete System & Code Walkthrough on Loom](https://www.loom.com/share/9a897833986d480bb72ecaa33dbe5d5d)**
+
+---
+
 ## Overview
 
 This project provides an automated, production-oriented AI pipeline for customer support operations and Technical Account Management (TAM). It processes customer support tickets and account history to automate ticket triage, generate QBR-ready account summaries, and systematically evaluate AI quality.

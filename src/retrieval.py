@@ -1,12 +1,4 @@
-"""
-Knowledge-base retrieval.
 
-Loads every Markdown file under the kb_path directory, splits each file on
-`---` horizontal rules (as recommended by DATA_SCHEMA.md), and does a fast
-TF-IDF-style keyword ranking to return the most relevant chunks for a query.
-
-No vector DB, no embeddings, no external dependencies beyond the stdlib.
-"""
 from __future__ import annotations
 
 import math
@@ -18,7 +10,7 @@ from typing import List
 
 @dataclass
 class Chunk:
-    """A single retrievable piece of KB content."""
+ 
 
     source_file: str          # relative path, e.g. "products/databridge-pro.md"
     heading: str              # nearest heading above this chunk (or file title)
@@ -29,9 +21,9 @@ class Chunk:
         self.tokens = _tokenise(self.content + " " + self.heading)
 
 
-# ---------------------------------------------------------------------------
+
 # Internal helpers
-# ---------------------------------------------------------------------------
+
 
 _STOP_WORDS = {
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
@@ -76,9 +68,9 @@ def _split_into_chunks(content: str, source_file: str) -> List[Chunk]:
     return chunks
 
 
-# ---------------------------------------------------------------------------
+
 # Public API
-# ---------------------------------------------------------------------------
+
 
 class KnowledgeBase:
     """Loaded, chunked KB with keyword-based retrieval."""

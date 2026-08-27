@@ -19,9 +19,9 @@ from .schemas import IssueCategory, ProductArea, TriageResponse
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+
 # Responder routing table (deterministic — LLM cannot override this)
-# ---------------------------------------------------------------------------
+
 
 _RESPONDER_MAP: dict[str, str] = {
     IssueCategory.BILLING: "Billing Support",
@@ -39,17 +39,17 @@ def _route_responder(category: IssueCategory) -> str:
     return _RESPONDER_MAP.get(category, "Technical Support")
 
 
-# ---------------------------------------------------------------------------
+
 # Controlled vocabulary strings for the prompt
-# ---------------------------------------------------------------------------
+
 
 _PRODUCT_AREA_LIST = "\n".join(f"- {a.value}" for a in ProductArea)
 
 _CATEGORY_LIST = " | ".join(c.value for c in IssueCategory)
 
-# ---------------------------------------------------------------------------
+
 # Prompt construction
-# ---------------------------------------------------------------------------
+
 
 def _build_kb_context(chunks: List[Chunk]) -> str:
     if not chunks:
@@ -156,16 +156,12 @@ def _build_user_message(subject: str, body: str, kb_context: str) -> str:
     )
 
 
-# ---------------------------------------------------------------------------
+
 # Gemini call (google-genai SDK)
-# ---------------------------------------------------------------------------
+
 
 def _call_gemini(prompt: str) -> str:
-    """Call Gemini and return the raw text response.
 
-    Retries with exponential backoff on transient errors and falls back
-    to gemini-3.5-flash-lite if the primary model encounters high demand.
-    """
     import time
 
     client = genai.Client(api_key=settings.require_api_key())
@@ -211,21 +207,16 @@ def _call_gemini(prompt: str) -> str:
     raise RuntimeError("Gemini API call failed: no models attempted or no response returned")
 
 
-# ---------------------------------------------------------------------------
+
 # Public entry point
-# ---------------------------------------------------------------------------
+
 
 def triage_ticket(
     subject: str,
     body: str,
     kb_chunks: List[Chunk],
 ) -> TriageResponse:
-    """
-    Run LLM triage for *subject* / *body* given the pre-retrieved *kb_chunks*.
-
-    Raises:
-        RuntimeError: on LLM API failure or invalid response structure.
-    """
+   
     kb_context = _build_kb_context(kb_chunks)
     prompt = _build_user_message(subject, body, kb_context)
 

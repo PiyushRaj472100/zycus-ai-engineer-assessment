@@ -7,9 +7,9 @@ from typing import Optional
 from pydantic import BaseModel, model_validator
 
 
-# ---------------------------------------------------------------------------
+
 # Enums
-# ---------------------------------------------------------------------------
+
 
 class ProductArea(str, Enum):
     # DataBridge Pro
@@ -62,12 +62,11 @@ class UrgencyTier(str, Enum):
     P4 = "P4"
 
 
-# ---------------------------------------------------------------------------
+
 # API request
-# ---------------------------------------------------------------------------
+
 
 class TicketRequest(BaseModel):
-    """Incoming ticket payload."""
 
     subject: str
     body: str
@@ -81,12 +80,12 @@ class TicketRequest(BaseModel):
         return self
 
 
-# ---------------------------------------------------------------------------
+
 # API response
-# ---------------------------------------------------------------------------
+
 
 class TriageResponse(BaseModel):
-    """Structured triage result returned to the caller."""
+  
 
     product_area: Optional[ProductArea] = None
     issue_category: IssueCategory
@@ -107,9 +106,9 @@ class TriageResponse(BaseModel):
         return self
 
 
-# ---------------------------------------------------------------------------
+
 # Task 2: Account Health Summariser Schemas
-# ---------------------------------------------------------------------------
+
 
 class SeverityTier(str, Enum):
     HIGH = "High"
@@ -118,13 +117,13 @@ class SeverityTier(str, Enum):
 
 
 class EvidenceItem(BaseModel):
-    """Evidence supporting an identified risk."""
+
     ticket_id: Optional[str] = None
     quote: Optional[str] = None
 
 
 class RiskItem(BaseModel):
-    """An identified risk or escalation flag for the account."""
+   
     risk: str
     severity: SeverityTier
     reason: str
@@ -132,7 +131,7 @@ class RiskItem(BaseModel):
 
 
 class AccountHealthRequest(BaseModel):
-    """Incoming request to summarize account health for TAM QBR prep."""
+ 
     account_id: str
 
     @model_validator(mode="after")
@@ -144,7 +143,7 @@ class AccountHealthRequest(BaseModel):
 
 
 class AccountHealthResponse(BaseModel):
-    """Structured TAM brief returned to the caller."""
+
     account_id: str
     company: str
     executive_summary: str

@@ -1,4 +1,4 @@
-"""FastAPI application — Task 1: Intelligent Ticket Triage Agent."""
+
 from __future__ import annotations
 
 import logging
@@ -22,9 +22,9 @@ from .account_health import summarize_account_health
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+
 # Application lifecycle
-# ---------------------------------------------------------------------------
+
 
 _kb: KnowledgeBase | None = None
 
@@ -39,9 +39,9 @@ async def lifespan(app: FastAPI):
     _kb = None
 
 
-# ---------------------------------------------------------------------------
+
 # App
-# ---------------------------------------------------------------------------
+
 
 app = FastAPI(
     title="Ticket Triage Agent",
@@ -55,9 +55,9 @@ app = FastAPI(
 )
 
 
-# ---------------------------------------------------------------------------
+
 # Error handlers
-# ---------------------------------------------------------------------------
+
 
 @app.exception_handler(ValidationError)
 async def pydantic_validation_handler(request: Request, exc: ValidationError) -> JSONResponse:
